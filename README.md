@@ -1,4 +1,8 @@
-# SolidStart
+# Live Logger
+
+A logging application for any purpose, built for Michelle. Part of her new suite of products.
+
+## SolidStart
 
 Everything you need to build a Solid project, powered by [`solid-start`](https://start.solidjs.com);
 
