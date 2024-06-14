@@ -1,4 +1,4 @@
-import { Message } from "~/models";
+import { Message } from "../models";
 
 export default function MessageItem(props: { msg: Message }) {
 	// TODO: add row-based and column-based styling emulating a table appearance
