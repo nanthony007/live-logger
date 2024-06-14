@@ -1,18 +1,13 @@
-import { Router } from "@solidjs/router";
-import { FileRoutes } from "@solidjs/start/router";
-import { Suspense } from "solid-js";
-import "./app.css";
+import type { Component } from "solid-js";
+import MessageView from "./components/MessageView";
 
-export default function App() {
+const App: Component = () => {
 	return (
-		<Router
-			root={(props) => (
-				<>
-					<Suspense>{props.children}</Suspense>
-				</>
-			)}
-		>
-			<FileRoutes />
-		</Router>
+		<>
+			<h1>WOWOW</h1>
+			<MessageView />
+		</>
 	);
-}
+};
+
+export default App;

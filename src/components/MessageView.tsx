@@ -1,7 +1,7 @@
 import { createMemo } from "solid-js";
 import { createStore } from "solid-js/store";
-import MessageList from "~/components/MessageList";
-import { Message } from "~/models";
+import MessageList from "./MessageList";
+import { Message } from "../models";
 
 export default function MessageView() {
 	const [store, setStore] = createStore<{
