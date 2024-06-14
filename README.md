@@ -16,6 +16,8 @@ npm init solid@latest my-app
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
+changedd
+
 ```bash
 npm run dev
 
