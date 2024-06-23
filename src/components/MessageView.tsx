@@ -33,7 +33,9 @@ export default function MessageView() {
 		// convert to CSV
 		let csv = "num,text,timestamp,elapsed\n";
 		store.messageList.forEach((msg) => {
-			csv += `${msg.num},${msg.text},${msg.timestamp.toUTCString()},${msg.elapsed}\n`;
+			csv += `${msg.num},${msg.text},${msg.timestamp.toUTCString().replace(",", "")},${
+				msg.elapsed
+			}\n`;
 		});
 		let blob = new Blob([csv], { type: "text/csv" });
 		let url = window.URL.createObjectURL(blob);
