@@ -268,12 +268,13 @@ export default function MessageView() {
 										id={`modal-${msg.num}`}
 										tabindex="-1"
 										aria-hidden="true"
-										class="hidden overflow-y-auto overflow-x-hidden justify-center items-center w-full max-h-full"
+										class="fixed inset-0 z-10 hidden overflow-y-auto modal"
 									>
-										<div class="relative p-4 w-full max-w-2xl max-h-full">
-											{/* <!-- Modal content --> */}
-											<div class="relative bg-white rounded-lg shadow">
-												{/* <!-- Modal header --> */}
+										<div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center">
+											<div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"></div>
+											<span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
+											&#8203;
+											<div class="inline-block px-4 py-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
 												<div class="flex items-center justify-between rounded-t">
 													<button
 														type="button"
@@ -298,26 +299,29 @@ export default function MessageView() {
 														<span class="sr-only">Close modal</span>
 													</button>
 												</div>
-												{/* <!-- Modal body --> */}
-												<div class="flex justify-center space-x-2 width-1/2">
-													<label for="edit-message-text">Edit message:</label>
+												<h3 class="text-lg font-medium leading-6 text-sky-900">Edit Message: </h3>
+												<div class="flex justify-center space-x-2">
+													<label hidden for="edit-message-text">
+														Edit message:
+													</label>
 													<input
 														name="edit-message-text"
 														type="text"
 														value={msg.text}
 														onInput={(e) => setStore("editedMessage", e.target.value)}
-														class="border-b-2 border-b-sky-700 text-sky-900 placeholder:text-gray-400 focus:outline-none"
+														class="w-full border-b-2 border-b-sky-700 text-sky-900 placeholder:text-gray-400 focus:outline-none"
 													/>
 												</div>
-												{/* <!-- Modal footer --> */}
-												<div class="flex justify-center items-center border-gray-200 rounded-b py-2">
-													<button
-														type="button"
-														class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
-														onClick={[editMessage, msg.num]}
-													>
-														Confirm
-													</button>
+												<div class="mt-5 sm:mt-6">
+													<div class="flex justify-center items-center border-gray-200 rounded-b py-2">
+														<button
+															type="button"
+															class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+															onClick={[editMessage, msg.num]}
+														>
+															Confirm
+														</button>
+													</div>
 												</div>
 											</div>
 										</div>
