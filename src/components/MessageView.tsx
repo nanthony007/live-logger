@@ -246,7 +246,7 @@ export default function MessageView() {
 									</button>
 								</td>
 								<td>{msg.num}</td>
-								<td>
+								<td class="flex justify-center space-x-2">
 									<span id={`msg-text-${msg.num}`}>{msg.text}</span>
 									<button class="text-slate-500" type="button" onClick={[toggleModal, msg.num]}>
 										<svg
@@ -274,8 +274,7 @@ export default function MessageView() {
 											{/* <!-- Modal content --> */}
 											<div class="relative bg-white rounded-lg shadow">
 												{/* <!-- Modal header --> */}
-												<div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-													<h3 class="text-xl font-semibold text-slate-900">New Message</h3>
+												<div class="flex items-center justify-between rounded-t">
 													<button
 														type="button"
 														class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -300,18 +299,21 @@ export default function MessageView() {
 													</button>
 												</div>
 												{/* <!-- Modal body --> */}
-												<div class="p-4 md:p-5 space-y-4">
+												<div class="flex justify-center space-x-2 width-1/2">
+													<label for="edit-message-text">Edit message:</label>
 													<input
+														name="edit-message-text"
 														type="text"
 														value={msg.text}
 														onInput={(e) => setStore("editedMessage", e.target.value)}
+														class="border-b-2 border-b-sky-700 text-sky-900 placeholder:text-gray-400 focus:outline-none"
 													/>
 												</div>
 												{/* <!-- Modal footer --> */}
-												<div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b">
+												<div class="flex justify-center items-center border-gray-200 rounded-b py-2">
 													<button
 														type="button"
-														class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+														class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
 														onClick={[editMessage, msg.num]}
 													>
 														Confirm
