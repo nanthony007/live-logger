@@ -1,31 +1,83 @@
-import { createMemo } from "solid-js";
+import { For, createMemo } from "solid-js";
 import { createStore } from "solid-js/store";
-import MessageTable from "~/components/MessageTable";
 import { Message } from "~/models";
 
+function formatElapsed(elapsed: number): string {
+	if (elapsed > 3600) {
+		// hours
+		let h = Math.floor(elapsed / 3600);
+		let m = Math.floor((elapsed % 3600) / 60);
+		let s = Math.floor(elapsed % 60);
+		return `${h}h:${m}m:${s}s`;
+	} else if (elapsed > 60) {
+		// minutes
+		let m = Math.floor(elapsed / 60);
+		let s = Math.floor(elapsed % 60);
+		return `${m}m:${s}s`;
+	} else {
+		// seconds
+		return `${elapsed}s`;
+	}
+}
+
 export default function MessageView() {
+	const today = new Date();
 	const [store, setStore] = createStore<{
 		message: string;
 		messageList: Message[];
 		logTitle: string;
+		editedMessage: string;
 	}>({
 		message: "",
 		messageList: [],
 		logTitle: "",
+		editedMessage: "",
 	});
 	// copies :/
 	const orderedMessages = createMemo(() => store.messageList.toSorted((a, b) => b.num - a.num));
 	const messageCount = createMemo(() => store.messageList.length);
+	const maxMessageNum = createMemo(() => store.messageList.reduce((a, b) => Math.max(a, b.num), 0));
 
 	function addMessage(text: string) {
 		if (messageCount() > 0) {
 			let originalMsg = store.messageList[0];
-			let m = new Message(messageCount() + 1, text);
+			let m = new Message(maxMessageNum() + 1, text);
 			m.setElapsed(originalMsg);
 			setStore("messageList", messageCount(), m);
 		} else {
-			let m = new Message(messageCount() + 1, text);
+			let m = new Message(maxMessageNum() + 1, text);
 			setStore("messageList", messageCount(), m);
+		}
+	}
+
+	function deleteMessage(num: number, event: Event) {
+		setStore(
+			"messageList",
+			store.messageList.filter((msg) => msg.num !== num)
+		);
+	}
+
+	function editMessage(num: number, _: Event) {
+		let msgIndex = store.messageList.findIndex((m) => m.num === num);
+		if (msgIndex < 0) {
+			console.error(`Message with num ${num} not found`);
+			return;
+		}
+		let msg = store.messageList[msgIndex];
+		msg.text = store.editedMessage;
+		setStore("messageList", msgIndex, msg);
+		// update existing UI as well
+		let textSpan = document.getElementById(`msg-text-${num}`);
+		if (textSpan) {
+			textSpan.innerText = store.editedMessage;
+		}
+		toggleModal(num, _);
+	}
+
+	function toggleModal(num: number, _: Event) {
+		let modal = document.getElementById(`modal-${num}`);
+		if (modal) {
+			modal.classList.toggle("hidden");
 		}
 	}
 
@@ -160,7 +212,123 @@ export default function MessageView() {
 			</form>
 
 			{/* display messages */}
-			<MessageTable messages={orderedMessages()} />
+
+			<table class="table-auto w-full sm:w-3/4 md:w-3/4 mx-auto py-5 px-4">
+				<thead class="border-b-2 border-b-sky-700">
+					<tr>
+						<th></th>
+						<th>Num</th>
+						<th>Text</th>
+						<th>Timestamp</th>
+						<th>Elapsed</th>
+					</tr>
+				</thead>
+				<tbody>
+					<For each={orderedMessages()}>
+						{(msg, _) => (
+							<tr class="border-y-2 border-y-sky-700 border-opacity-25">
+								<td class="flex justify-center space-x-2">
+									<button class="text-red-700" type="button" onClick={[deleteMessage, msg.num]}>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											class="size-6"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+											/>
+										</svg>
+									</button>
+								</td>
+								<td>{msg.num}</td>
+								<td>
+									<span id={`msg-text-${msg.num}`}>{msg.text}</span>
+									<button class="text-slate-500" type="button" onClick={[toggleModal, msg.num]}>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											class="size-6"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+											/>
+										</svg>
+									</button>
+									<div
+										id={`modal-${msg.num}`}
+										tabindex="-1"
+										aria-hidden="true"
+										class="hidden overflow-y-auto overflow-x-hidden justify-center items-center w-full max-h-full"
+									>
+										<div class="relative p-4 w-full max-w-2xl max-h-full">
+											{/* <!-- Modal content --> */}
+											<div class="relative bg-white rounded-lg shadow">
+												{/* <!-- Modal header --> */}
+												<div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+													<h3 class="text-xl font-semibold text-slate-900">New Message</h3>
+													<button
+														type="button"
+														class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+														onClick={[toggleModal, msg.num]}
+													>
+														<svg
+															class="w-3 h-3"
+															aria-hidden="true"
+															xmlns="http://www.w3.org/2000/svg"
+															fill="none"
+															viewBox="0 0 14 14"
+														>
+															<path
+																stroke="currentColor"
+																stroke-linecap="round"
+																stroke-linejoin="round"
+																stroke-width="2"
+																d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+															/>
+														</svg>
+														<span class="sr-only">Close modal</span>
+													</button>
+												</div>
+												{/* <!-- Modal body --> */}
+												<div class="p-4 md:p-5 space-y-4">
+													<input
+														type="text"
+														value={msg.text}
+														onInput={(e) => setStore("editedMessage", e.target.value)}
+													/>
+												</div>
+												{/* <!-- Modal footer --> */}
+												<div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b">
+													<button
+														type="button"
+														class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+														onClick={[editMessage, msg.num]}
+													>
+														Confirm
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</td>
+								<td>{msg.timestamp.toLocaleTimeString()}</td>
+								<td>{formatElapsed(msg.elapsed)}</td>
+							</tr>
+						)}
+					</For>
+				</tbody>
+			</table>
+			<span class="text-slate-500 pt-4">Recorded on {today.toLocaleDateString()}</span>
 		</>
 	);
 }
