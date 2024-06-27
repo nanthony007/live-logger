@@ -93,7 +93,12 @@ export default function MessageView() {
 		let url = window.URL.createObjectURL(blob);
 		let a = document.createElement("a");
 		a.href = url;
-		a.download = store.fileName ? `${store.fileName}.csv` : "log-messages.csv";
+		let fileName = store.fileName ? `${store.fileName}.csv` : "log-messages.csv";
+		if (fileName.endsWith(".csv")) {
+			a.download = fileName;
+		} else {
+			a.download = `${fileName}.csv`;
+		}
 		a.click();
 		window.URL.revokeObjectURL(url);
 	}
