@@ -227,8 +227,12 @@ export default function MessageView() {
 					<For each={orderedMessages()}>
 						{(msg, _) => (
 							<tr class="border-y-2 border-y-sky-700 border-opacity-25">
-								<td class="flex justify-center space-x-2">
-									<button class="text-red-700" type="button" onClick={[deleteMessage, msg.num]}>
+								<td>
+									<button
+										class="text-red-700 align-middle"
+										type="button"
+										onClick={[deleteMessage, msg.num]}
+									>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
 											fill="none"
@@ -245,8 +249,8 @@ export default function MessageView() {
 										</svg>
 									</button>
 								</td>
-								<td>{msg.num}</td>
-								<td class="flex justify-center space-x-2">
+								<td class="align-middle">{msg.num}</td>
+								<td class="flex justify-start align-middle space-x-2">
 									<span id={`msg-text-${msg.num}`}>{msg.text}</span>
 									<button class="text-slate-500" type="button" onClick={[toggleModal, msg.num]}>
 										<svg
@@ -327,8 +331,8 @@ export default function MessageView() {
 										</div>
 									</div>
 								</td>
-								<td>{msg.timestamp.toLocaleTimeString()}</td>
-								<td>{formatElapsed(msg.elapsed)}</td>
+								<td class="align-middle">{msg.timestamp.toLocaleTimeString()}</td>
+								<td class="align-middle">{formatElapsed(msg.elapsed)}</td>
 							</tr>
 						)}
 					</For>
