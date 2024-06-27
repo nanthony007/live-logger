@@ -256,7 +256,7 @@ export default function MessageView() {
 								</td>
 								<td class="align-middle">{msg.num}</td>
 								<td class="flex justify-between items-center">
-									<span id={`msg-text-${msg.num}`} class="flex justify-start align-middle">
+									<span id={`msg-text-${msg.num}`} class="text-left align-middle">
 										{msg.text}
 									</span>
 									<button
