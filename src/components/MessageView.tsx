@@ -315,29 +315,34 @@ export default function MessageView() {
 													</button>
 												</div>
 												<h3 class="text-lg font-medium leading-6 text-sky-900">Edit Message: </h3>
-												<div class="flex justify-center space-x-2">
-													<label hidden for="edit-message-text">
-														Edit message:
-													</label>
-													<input
-														name="edit-message-text"
-														type="text"
-														value={msg.text}
-														onInput={(e) => setStore("editedMessage", e.target.value)}
-														class="w-full border-b-2 border-b-sky-700 text-sky-900 placeholder:text-gray-400 focus:outline-none"
-													/>
-												</div>
-												<div class="mt-5 sm:mt-6">
-													<div class="flex justify-center items-center border-gray-200 rounded-b py-2">
-														<button
-															type="button"
-															class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
-															onClick={[editMessage, msg.num]}
-														>
-															Confirm
-														</button>
+												<form
+													class="w-full sm:w-2/3 md:w-2/3 flex flex-col space-y-2 mx-auto justify-center pb-5 px-4"
+													onSubmit={(e) => {
+														e.preventDefault();
+														editMessage(msg.num, e);
+														toggleModal(msg.num, e);
+													}}
+												>
+													<div class="flex justify-center space-x-2">
+														<label hidden for="edit-message-text">
+															Edit message:
+														</label>
+														<input
+															name="edit-message-text"
+															type="text"
+															value={msg.text}
+															onInput={(e) => setStore("editedMessage", e.target.value)}
+															class="w-full border-b-2 border-b-sky-700 text-sky-900 placeholder:text-gray-400 focus:outline-none"
+														/>
 													</div>
-												</div>
+													<button
+														type="submit"
+														class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+														onClick={[editMessage, msg.num]}
+													>
+														Confirm
+													</button>
+												</form>
 											</div>
 										</div>
 									</div>
