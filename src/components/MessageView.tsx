@@ -67,9 +67,9 @@ export default function MessageView() {
 		msg.text = store.editedMessage;
 		setStore("messageList", msgIndex, msg);
 		// update existing UI as well
-		let textSpan = document.getElementById(`msg-text-${num}`);
-		if (textSpan) {
-			textSpan.innerText = store.editedMessage;
+		let tableCell = document.getElementById(`msg-text-${num}`);
+		if (tableCell) {
+			tableCell.innerText = store.editedMessage;
 		}
 		toggleModal(num, _);
 	}
@@ -256,7 +256,9 @@ export default function MessageView() {
 									</button>
 								</td>
 								<td class="align-middle">{msg.num}</td>
-								<td class="align-middle">{msg.text}</td>
+								<td class="align-middle" id={`msg-text-${msg.num}`}>
+									{msg.text}
+								</td>
 								<td class="align-middle">
 									<button class="text-slate-500" type="button" onClick={[toggleModal, msg.num]}>
 										<svg
