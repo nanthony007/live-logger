@@ -101,8 +101,8 @@ export default function MessageView() {
 	return (
 		<>
 			{/* file name input section */}
-			<div class="w-full sm:w-3/4 flex flex-col space-y-3 items-center sm:flex-row sm:space-x-4 mx-auto py-5 px-4">
-				<div>
+			<div class=" flex flex-col w-full sm:3/4 md:w-1/2 space-y-3 items-center sm:space-x-4 mx-auto py-5 px-4">
+				<div class="w-3/4">
 					<label
 						for="log-title"
 						class="flex justify-start text-sm underline font-medium text-sky-900"
@@ -110,7 +110,7 @@ export default function MessageView() {
 						Log title:
 					</label>
 					<input
-						class="flex pt-2 border-b-2 border-b-sky-700 text-sky-900 placeholder:text-gray-400 focus:outline-none"
+						class="flex w-full pt-2 border-b-2 border-b-sky-700 text-sky-900 placeholder:text-gray-400 focus:outline-none"
 						type="text"
 						name="log-title"
 						id="log-title"
@@ -121,7 +121,7 @@ export default function MessageView() {
 				</div>
 				{/* reset/clear and download button section */}
 				<button
-					class="w-3/4 sm:w-2/3 md:w-1/2 bg-red-700 hover:bg-red-500 text-white font-bold rounded-full"
+					class="w-2/3 py-2 bg-red-700 hover:bg-red-500 text-white font-bold rounded-full"
 					onClick={() => {
 						setStore("messageList", []);
 						setStore("logTitle", "");
@@ -144,7 +144,7 @@ export default function MessageView() {
 					</div>
 				</button>
 				<button
-					class="w-3/4 sm:w-2/3 md:w-1/2 bg-sky-700 hover:bg-sky-500 text-white font-bold rounded-full"
+					class="w-2/3 py-2 bg-sky-700 hover:bg-sky-500 text-white font-bold rounded-full"
 					onClick={() => downloadMessages()}
 				>
 					<div class="flex justify-center">
