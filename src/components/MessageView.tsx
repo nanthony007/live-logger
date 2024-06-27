@@ -224,6 +224,7 @@ export default function MessageView() {
 						<th></th>
 						<th>Num</th>
 						<th>Text</th>
+						<th></th>
 						<th>Timestamp</th>
 						<th>Elapsed</th>
 					</tr>
@@ -255,15 +256,9 @@ export default function MessageView() {
 									</button>
 								</td>
 								<td class="align-middle">{msg.num}</td>
-								<td class="flex justify-between items-center">
-									<span id={`msg-text-${msg.num}`} class="text-left align-middle">
-										{msg.text}
-									</span>
-									<button
-										class="text-slate-500 flex justify-end align-middle"
-										type="button"
-										onClick={[toggleModal, msg.num]}
-									>
+								<td class="align-middle">{msg.text}</td>
+								<td class="align-middle">
+									<button class="text-slate-500" type="button" onClick={[toggleModal, msg.num]}>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
 											fill="none"
