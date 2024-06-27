@@ -250,9 +250,15 @@ export default function MessageView() {
 									</button>
 								</td>
 								<td class="align-middle">{msg.num}</td>
-								<td class="flex justify-start align-middle space-x-2">
-									<span id={`msg-text-${msg.num}`}>{msg.text}</span>
-									<button class="text-slate-500" type="button" onClick={[toggleModal, msg.num]}>
+								<td class="flex justify-between items-center">
+									<span id={`msg-text-${msg.num}`} class="flex justify-start align-middle">
+										{msg.text}
+									</span>
+									<button
+										class="text-slate-500 flex justify-end align-middle"
+										type="button"
+										onClick={[toggleModal, msg.num]}
+									>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
 											fill="none"
