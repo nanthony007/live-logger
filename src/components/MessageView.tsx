@@ -25,12 +25,12 @@ export default function MessageView() {
 	const [store, setStore] = createStore<{
 		message: string;
 		messageList: Message[];
-		logTitle: string;
+		fileName: string;
 		editedMessage: string;
 	}>({
 		message: "",
 		messageList: [],
-		logTitle: "",
+		fileName: "",
 		editedMessage: "",
 	});
 	// copies :/
@@ -50,7 +50,7 @@ export default function MessageView() {
 		}
 	}
 
-	function deleteMessage(num: number, event: Event) {
+	function deleteMessage(num: number, _: Event) {
 		setStore(
 			"messageList",
 			store.messageList.filter((msg) => msg.num !== num)
@@ -93,7 +93,7 @@ export default function MessageView() {
 		let url = window.URL.createObjectURL(blob);
 		let a = document.createElement("a");
 		a.href = url;
-		a.download = store.logTitle ? `${store.logTitle}.csv` : "log-messages.csv";
+		a.download = store.fileName ? `${store.fileName}.csv` : "log-messages.csv";
 		a.click();
 		window.URL.revokeObjectURL(url);
 	}
@@ -107,16 +107,16 @@ export default function MessageView() {
 						for="log-title"
 						class="flex justify-start text-sm underline font-medium text-sky-900"
 					>
-						Log title:
+						File Name:
 					</label>
 					<input
 						class="flex w-full pt-2 border-b-2 border-b-sky-700 text-sky-900 placeholder:text-gray-400 focus:outline-none"
 						type="text"
 						name="log-title"
 						id="log-title"
-						placeholder="Log Title"
-						value={store.logTitle}
-						onInput={(e) => setStore("logTitle", e.target.value)}
+						placeholder="log-messages.csv"
+						value={store.fileName}
+						onInput={(e) => setStore("fileName", e.target.value)}
 					/>
 				</div>
 				{/* reset/clear and download button section */}
@@ -124,7 +124,7 @@ export default function MessageView() {
 					class="w-2/3 py-2 bg-red-700 hover:bg-red-500 text-white font-bold rounded-full"
 					onClick={() => {
 						setStore("messageList", []);
-						setStore("logTitle", "");
+						setStore("fileName", "");
 					}}
 				>
 					<div class="flex justify-center">
