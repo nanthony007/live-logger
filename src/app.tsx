@@ -1,6 +1,5 @@
 import type { Component } from "solid-js";
 import { createStore } from "solid-js/store";
-import { Dynamic } from "solid-js/web";
 
 import { JSX, Match, Switch, onMount } from "solid-js";
 import { TabSection } from "./components/TabSection";
