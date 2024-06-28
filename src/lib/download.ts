@@ -8,7 +8,7 @@ export function downloadCsv(data: Message[], fileName: string = "log-messages.cs
         ${item.num},\
         ${item.text},\
         ${item.timestamp.toUTCString().replace(",", "")},\
-        ${item.elapsed}\n\
+        ${item.elapsed}\
         `;
 	});
 	let blob = new Blob([csv], { type: "text/csv" });
