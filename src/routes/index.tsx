@@ -3,7 +3,7 @@ import { Dynamic } from "solid-js/web";
 
 import { TabSection } from "~/components/TabSection";
 import { LogView } from "~/components/LogView";
-import { JSX, ValidComponent, createEffect, onMount } from "solid-js";
+import { JSX, createMemo, onMount } from "solid-js";
 
 type PageStore = {
 	tabCount: number;
@@ -20,7 +20,9 @@ export default function Home() {
 	onMount(() => {
 		setStore("tabOptions", store.tabOptions.length, () => <LogView />);
 	});
-
+	const currentTab = createMemo(() =>
+		store.tabOptions.find((_, idx) => idx == store.selectedTab - 1)
+	);
 	function incrementTabCount() {
 		setStore("tabCount", store.tabCount + 1);
 		setStore("tabOptions", store.tabOptions.length, () => <LogView />);
@@ -46,7 +48,7 @@ export default function Home() {
 				selectedHandler={(idx) => setStore("selectedTab", idx)}
 			/>
 
-			<Dynamic component={store.tabOptions.find((_, idx) => idx == store.selectedTab - 1)} />
+			<Dynamic component={currentTab()} />
 		</main>
 	);
 }
