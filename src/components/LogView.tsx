@@ -1,12 +1,12 @@
-import { Component, For, Show, createMemo } from "solid-js";
+import { Show, createMemo } from "solid-js";
 import { createStore } from "solid-js/store";
 import { createEffect } from "solid-js";
-import { downloadCsv } from "~/lib/download";
-import { Message, getElapsed, formatElapsed } from "~/lib/models";
-import { FileInput } from "~/components/FileInput";
-import { NewMessageForm } from "~/components/NewMessageForm";
-import { EditMessageModal } from "~/components/EditModal";
-import { LogTable } from "~/components/LogTable";
+import { downloadCsv } from "../lib/download";
+import { Message, getElapsed } from "../lib/models";
+import { FileInput } from "./FileInput";
+import { NewMessageForm } from "../components/NewMessageForm";
+import { EditMessageModal } from "../components/EditModal";
+import { LogTable } from "../components/LogTable";
 
 export type EditTarget = {
 	idx: number;

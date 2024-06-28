@@ -1,5 +1,5 @@
 import { For } from "solid-js";
-import { Message, formatElapsed } from "~/lib/models";
+import { Message, formatElapsed } from "../lib/models";
 
 export function LogTable(props: {
 	messages: Message[];
