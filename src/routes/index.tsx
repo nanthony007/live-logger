@@ -1,18 +1,52 @@
-import MessageView from "~/components/MessageView";
+import { createStore } from "solid-js/store";
+import { Dynamic } from "solid-js/web";
+
+import { TabSection } from "~/components/TabSection";
+import { LogView } from "~/components/LogView";
+import { JSX, ValidComponent, createEffect, onMount } from "solid-js";
+
+type PageStore = {
+	tabCount: number;
+	selectedTab: number;
+	tabOptions: Array<() => JSX.Element>;
+};
 
 export default function Home() {
+	const [store, setStore] = createStore<PageStore>({
+		tabCount: 1,
+		selectedTab: 1,
+		tabOptions: [],
+	});
+	onMount(() => {
+		setStore("tabOptions", store.tabOptions.length, () => <LogView />);
+	});
+
+	function incrementTabCount() {
+		setStore("tabCount", store.tabCount + 1);
+		setStore("tabOptions", store.tabOptions.length, () => <LogView />);
+	}
+	function decrementTabCount() {
+		// if selected tab is last tab, decrement selected tab
+		if (store.tabCount == store.selectedTab) {
+			setStore("selectedTab", store.selectedTab - 1);
+		}
+		setStore("tabCount", store.tabCount - 1);
+		setStore("tabOptions", store.tabOptions.slice(0, -1));
+	}
+
 	return (
 		<main class="text-center mx-auto text-sky-700 p-4 font-thin">
 			<h1 class="text-6xl uppercase py-4 underline underline-offset-auto">Live Logger</h1>
-			<div class="text-center mx-4 py-2">
-				<p>Welcome to the Live Logger application!</p>
-				<p>
-					Click the <span class="font-bold">"Download"</span> button to download the log as a CSV
-					file. Add a <span class="italic">"File Name"</span> to customize your downloaded filename.
-				</p>
-			</div>
 
-			<MessageView />
+			<TabSection
+				tabCount={store.tabCount}
+				selectedTab={store.selectedTab}
+				incrementTabCount={incrementTabCount}
+				decrementTabCount={decrementTabCount}
+				selectedHandler={(idx) => setStore("selectedTab", idx)}
+			/>
+
+			<Dynamic component={store.tabOptions.find((_, idx) => idx == store.selectedTab - 1)} />
 		</main>
 	);
 }

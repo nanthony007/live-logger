@@ -20,7 +20,8 @@ function formatElapsed(elapsed: number): string {
 	}
 }
 
-export default function MessageView() {
+export default function MessageView(props: { viewIndex: number }) {
+	const viewIndex = props.viewIndex;
 	const today = new Date();
 	const [store, setStore] = createStore<{
 		message: string;
@@ -67,7 +68,7 @@ export default function MessageView() {
 		msg.text = store.editedMessage;
 		setStore("messageList", msgIndex, msg);
 		// update existing UI as well
-		let tableCell = document.getElementById(`msg-text-${num}`);
+		let tableCell = document.getElementById(`msg-text-${viewIndex}-${num}`);
 		if (tableCell) {
 			tableCell.innerText = store.editedMessage;
 		}
@@ -75,7 +76,7 @@ export default function MessageView() {
 	}
 
 	function toggleModal(num: number, _: Event) {
-		let modal = document.getElementById(`modal-${num}`);
+		let modal = document.getElementById(`modal-${viewIndex}-${num}`);
 		if (modal) {
 			modal.classList.toggle("hidden");
 		}
@@ -256,7 +257,7 @@ export default function MessageView() {
 									</button>
 								</td>
 								<td class="align-middle">{msg.num}</td>
-								<td class="align-middle" id={`msg-text-${msg.num}`}>
+								<td class="align-middle" id={`msg-text-${viewIndex}-${msg.num}`}>
 									{msg.text}
 								</td>
 								<td class="align-middle">
@@ -277,7 +278,7 @@ export default function MessageView() {
 										</svg>
 									</button>
 									<div
-										id={`modal-${msg.num}`}
+										id={`modal-${viewIndex}-${msg.num}`}
 										tabindex="-1"
 										aria-hidden="true"
 										class="fixed inset-0 z-10 hidden overflow-y-auto modal"
