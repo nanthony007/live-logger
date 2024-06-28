@@ -20,9 +20,6 @@ export default function Home() {
 	onMount(() => {
 		setStore("tabOptions", store.tabOptions.length, <LogView />);
 	});
-	// const currentTab = createMemo(() =>
-	// 	store.tabOptions.find((_, idx) => idx == store.selectedTab - 1)
-	// );
 	function incrementTabCount() {
 		setStore("tabCount", store.tabCount + 1);
 		setStore("tabOptions", store.tabOptions.length, <LogView />);
@@ -53,8 +50,6 @@ export default function Home() {
 				<Match when={store.selectedTab == 2}>{store.tabOptions[1]}</Match>
 				<Match when={store.selectedTab == 3}>{store.tabOptions[2]}</Match>
 			</Switch>
-
-			{/* <Dynamic component={currentTab()} /> */}
 		</main>
 	);
 }

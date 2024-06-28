@@ -14,28 +14,6 @@ export function TabSection(props: TabSectionProps) {
 	return (
 		<>
 			<div class="flex justify-center space-x-8 py-2">
-				<Show when={props.tabCount < 3}>
-					<button
-						type="button"
-						class="bg-sky-700 hover:bg-sky-500 active:bg-sky-500 text-white font-bold rounded-2xl"
-						onClick={props.incrementTabCount}
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="size-8"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-							/>
-						</svg>
-					</button>
-				</Show>
 				<Show when={props.tabCount > 1}>
 					<button
 						type="button"
@@ -54,6 +32,28 @@ export function TabSection(props: TabSectionProps) {
 								stroke-linecap="round"
 								stroke-linejoin="round"
 								d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+							/>
+						</svg>
+					</button>
+				</Show>
+				<Show when={props.tabCount < 3}>
+					<button
+						type="button"
+						class="bg-sky-700 hover:bg-sky-500 active:bg-sky-500 text-white font-bold rounded-2xl"
+						onClick={props.incrementTabCount}
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="size-8"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
 							/>
 						</svg>
 					</button>
