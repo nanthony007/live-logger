@@ -2,7 +2,7 @@ import type { Component } from "solid-js";
 import { createStore } from "solid-js/store";
 import { Dynamic } from "solid-js/web";
 
-import { JSX, onMount } from "solid-js";
+import { JSX, Match, Switch, onMount } from "solid-js";
 import { TabSection } from "./components/TabSection";
 import { LogView } from "./components/LogView";
 
@@ -36,7 +36,7 @@ const App: Component = () => {
 	}
 
 	return (
-		<main class="text-center mx-auto text-sky-700 p-4 font-thin">
+		<div class="text-center mx-auto text-sky-700 p-4 font-thin">
 			<h1 class="text-6xl uppercase py-4 underline underline-offset-auto">Live Logger</h1>
 
 			<TabSection
@@ -47,8 +47,21 @@ const App: Component = () => {
 				selectedHandler={(idx) => setStore("selectedTab", idx)}
 			/>
 
-			<Dynamic component={store.tabOptions.find((_, idx) => idx == store.selectedTab - 1)} />
-		</main>
+			<Switch fallback={<div>Tab not found</div>}>
+				<Match when={store.selectedTab == 1}>
+					<LogView />
+				</Match>
+				<Match when={store.selectedTab == 2}>
+					<LogView />
+				</Match>
+				<Match when={store.selectedTab == 3}>
+					<LogView />
+				</Match>
+			</Switch>
+			{/* <Dynamic component={store.tabOptions.find((_, idx) => idx == store.selectedTab - 1)} /> */}
+
+			{/* <LogView /> */}
+		</div>
 	);
 };
 
