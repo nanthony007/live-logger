@@ -1,4 +1,4 @@
-import { For } from "solid-js";
+import { For, Show } from "solid-js";
 import { Message, formatElapsed } from "~/lib/models";
 
 export function LogTable(props: {
@@ -23,26 +23,28 @@ export function LogTable(props: {
 					{(msg) => (
 						<tr class="border-y-2 border-y-sky-700 border-opacity-25">
 							<td>
-								<button
-									class="text-red-700 align-middle"
-									type="button"
-									onClick={[props.deleteMessageCallback, msg.num]}
-								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke-width="1.5"
-										stroke="currentColor"
-										class="size-6"
+								<Show when={msg.num !== 1} fallback={""}>
+									<button
+										class="text-red-700 align-middle"
+										type="button"
+										onClick={[props.deleteMessageCallback, msg.num]}
 									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-										/>
-									</svg>
-								</button>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											class="size-6"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+											/>
+										</svg>
+									</button>
+								</Show>
 							</td>
 							<td class="align-middle">{msg.num}</td>
 							<td class="align-middle">{msg.text}</td>
