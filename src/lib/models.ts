@@ -1,11 +1,30 @@
-export type Message = {
+export interface Message {
 	num: number;
 	text: string;
 	timestamp: Date;
 	elapsed: number;
-};
+}
 
-function getElapsed(original: Date, current: Date): number {
+export interface TabData {
+	messages: Message[];
+	fileName: string;
+}
+
+export function initializeEmptyTab(): TabData {
+	const d: TabData = {
+		messages: [],
+		fileName: "",
+	};
+	return d;
+}
+
+export interface AppData {
+	tabCount: number;
+	activeTabIndex: number;
+	tabData: TabData[];
+}
+
+export function getElapsed(original: Date, current: Date): number {
 	let timeDiff = current.getTime() - original.getTime();
 	if (timeDiff > 0) {
 		// convert timeDiff to seconds
@@ -16,7 +35,7 @@ function getElapsed(original: Date, current: Date): number {
 	}
 }
 
-function formatElapsed(elapsed: number): string {
+export function formatElapsed(elapsed: number): string {
 	if (elapsed > 3600) {
 		// hours
 		let h = Math.floor(elapsed / 3600);
@@ -33,5 +52,3 @@ function formatElapsed(elapsed: number): string {
 		return `${elapsed}s`;
 	}
 }
-
-export { getElapsed, formatElapsed };
